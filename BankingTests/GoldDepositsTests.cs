@@ -11,17 +11,14 @@ namespace BankingTests
 
         [Fact]
         public void GoldAccountsGetABonus() {
-            var goldAcct = new BankAccount();
-            var openingBal = goldAcct.GetBalance();
+            var acct = new GoldAccount();
+            var openingBal = acct.GetBalance();
 
-            var amountToDeposit = 100M;
-            goldAcct.AcctType = AcctType.Gold;
+            acct.Deposit(100M);
 
-            goldAcct.Deposit(amountToDeposit);
+            var expectedBal = 110M + openingBal;
 
-            var expectedBal = (amountToDeposit * 1.10M) + openingBal;
-
-            Assert.Equal(expectedBal, goldAcct.GetBalance());
+            Assert.Equal(expectedBal, acct.GetBalance());
         }
     }
 }

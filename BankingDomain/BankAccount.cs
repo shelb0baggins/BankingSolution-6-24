@@ -10,17 +10,14 @@ namespace BankingDomain
     {
         
         private decimal _currentBal = 5000;
-        public AcctType AcctType = AcctType.Standard;
+        
         public decimal GetBalance()
         {
             return _currentBal;
         }
 
-        public void Deposit(decimal amountToDeposit)
+        public virtual void Deposit(decimal amountToDeposit)
         {
-            if (AcctType == AcctType.Gold) {
-                amountToDeposit *= 1.10M;
-            }
             _currentBal += amountToDeposit;
         }
 
