@@ -17,7 +17,7 @@ namespace BankingDomain
 
         public void Withdraw(decimal amountToWithdraw)
         {
-            if (amountToWithdraw < _currentBal)
+            if (amountToWithdraw <= _currentBal)
             {
                 _currentBal -= amountToWithdraw;
             }
