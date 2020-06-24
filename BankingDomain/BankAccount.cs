@@ -2,9 +2,15 @@
 
 namespace BankingDomain
 {
+    public enum AcctType
+    {
+        Standard, Gold
+    }
     public class BankAccount
     {
+        
         private decimal _currentBal = 5000;
+        public AcctType AcctType = AcctType.Standard;
         public decimal GetBalance()
         {
             return _currentBal;
@@ -12,6 +18,9 @@ namespace BankingDomain
 
         public void Deposit(decimal amountToDeposit)
         {
+            if (AcctType == AcctType.Gold) {
+                amountToDeposit *= 1.10M;
+            }
             _currentBal += amountToDeposit;
         }
 
