@@ -1,4 +1,5 @@
 ﻿using BankingDomain;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace BankingTests
     {
         [Fact]
         public void DeposityingMoneyIncreasesBalances() {
-            var acct = new BankAccount(new DummyBonusCalc());
+            var acct = new BankAccount(new DummyBonusCalc(), new Mock<INarcOnAccounts>().Object);
             var openingBal = acct.GetBalance();
             var amountToDeposit = 1M;
 

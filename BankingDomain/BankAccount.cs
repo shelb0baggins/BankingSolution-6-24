@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace BankingDomain
 {
@@ -6,10 +7,12 @@ namespace BankingDomain
     {
         private decimal _currentBal = 5000;
         private ICalculateBonuses _bonusCalculator;
+        private INarcOnAccounts _feds;
 
-        public BankAccount(ICalculateBonuses bonusCalculator)
+        public BankAccount(ICalculateBonuses bonusCalculator, INarcOnAccounts feds)
         {
             _bonusCalculator = bonusCalculator;
+            _feds = feds;
         }
 
         public decimal GetBalance()
@@ -29,6 +32,7 @@ namespace BankingDomain
         {
             if (amountToWithdraw <= _currentBal)
             {
+                _feds.NotifyOfWithdrawal(this, amountToWithdraw);
                 _currentBal -= amountToWithdraw;
             }
             else {

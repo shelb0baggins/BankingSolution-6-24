@@ -1,4 +1,5 @@
 ﻿using BankingDomain;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,7 @@ namespace BankingTests
 
         public Overdrafts()
         {
-            _acct = new BankAccount(new DummyBonusCalc());
+            _acct = new BankAccount(new Mock<ICalculateBonuses>().Object, new Mock<INarcOnAccounts>().Object);
             _openingBal = _acct.GetBalance();
         }
         [Fact]
