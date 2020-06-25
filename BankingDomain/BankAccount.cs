@@ -5,6 +5,13 @@ namespace BankingDomain
     public class BankAccount
     {
         private decimal _currentBal = 5000;
+        private ICalculateBonuses _bonusCalculator;
+
+        public BankAccount(ICalculateBonuses bonusCalculator)
+        {
+            _bonusCalculator = bonusCalculator;
+        }
+
         public decimal GetBalance()
         {
             return _currentBal;
@@ -12,7 +19,10 @@ namespace BankingDomain
 
         public void Deposit(decimal amountToDeposit)
         {
-            _currentBal += amountToDeposit;
+            //the amt to deposit
+            //current bal
+            decimal amountOfBonus = _bonusCalculator.GetDepositBonusFor(amountToDeposit, _currentBal);
+            _currentBal += amountToDeposit + amountOfBonus;
         }
 
         public void Withdraw(decimal amountToWithdraw)

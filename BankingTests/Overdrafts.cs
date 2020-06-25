@@ -8,38 +8,33 @@ namespace BankingTests
 {
     public class Overdrafts
     {
-        [Fact]
-        public void OerdraftDoesNotDecreaseBal()
+
+        private decimal _openingBal;
+        private BankAccount _acct;
+
+        public Overdrafts()
         {
-            var acct = new BankAccount();
-            var openingBal = acct.GetBalance();
+            _acct = new BankAccount(new DummyBonusCalc());
+            _openingBal = _acct.GetBalance();
+        }
+        [Fact]
+        public void OverdraftDoesNotDecreaseBal()
+        {
+            
             try
             {
-                acct.Withdraw(openingBal + 1);
+                _acct.Withdraw(_openingBal + 1);
             }
             catch (InsufficientFundsException) {
                 //oof
             }
             
-            Assert.Equal(openingBal, acct.GetBalance());
+            Assert.Equal(_openingBal, _acct.GetBalance());
      
         }
         [Fact]
         public void OverdraftThrowsAnException() {
-            var acct = new BankAccount();
-            var openingBal = acct.GetBalance();
-
-            Assert.Throws<InsufficientFundsException>(() => acct.Withdraw(openingBal + 1));
+            Assert.Throws<InsufficientFundsException>(() => _acct.Withdraw(_openingBal + 1));
         }
-        [Fact]
-        public void YouCanTakeItAll() {
-            var acct = new BankAccount();
-            var openingBal = acct.GetBalance();
-
-            acct.Withdraw(openingBal);
-            Assert.Equal(0, acct.GetBalance());
-        }
-
-
     }
 }

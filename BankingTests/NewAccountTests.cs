@@ -11,7 +11,7 @@ namespace BankingTests
         [Fact]
         public void NewAccountsHaveCorrectBalance() {
             //brand new account
-            var acct = new BankAccount();
+            var acct = new BankAccount(new DummyBonusCalc());
             //when balance is retrieved
             decimal balance = acct.GetBalance();
             //it has a balance of 5k

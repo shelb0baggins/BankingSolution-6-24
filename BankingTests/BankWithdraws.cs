@@ -8,17 +8,29 @@ namespace BankingTests
 {
     public class BankWithdraws
     {
+        private BankAccount _acct;
+        private decimal _openingBal;
+
+        public BankWithdraws()
+        {
+            _acct = new BankAccount(new DummyBonusCalc());
+            _openingBal = _acct.GetBalance();
+        }
+
         [Theory]
         [InlineData(100)]
         public void WithdrawMoneyDecreaseBalance(decimal amountToWithdraw) {
-            var acct = new BankAccount();
-            var openingBal = acct.GetBalance();
+            _acct.Withdraw(amountToWithdraw);
 
-            acct.Withdraw(amountToWithdraw);
-
-            var expectedBal = openingBal - amountToWithdraw;
-            Assert.Equal(expectedBal, acct.GetBalance());
+            var expectedBal = _openingBal - amountToWithdraw;
+            Assert.Equal(expectedBal, _acct.GetBalance());
         }
 
+        [Fact]
+        public void YouCanTakeItAll()
+        {
+            _acct.Withdraw(_openingBal);
+            Assert.Equal(0, _acct.GetBalance());
+        }
     }
 }
